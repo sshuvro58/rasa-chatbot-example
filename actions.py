@@ -1,8 +1,10 @@
 from rasa_core_sdk import Action
 # from rasa_core_sdk.forms import FormAction, EntityFormField, BooleanFormField
 from rasa_core_sdk.events import SlotSet
-import requests
 
+
+import requests
+import json
 
 class GreetApiCall(Action):
 
@@ -14,6 +16,44 @@ class GreetApiCall(Action):
 		# type: (Dispatcher, DialogueStateTracker, Domain) -> List[Event]
 
 		return [SlotSet("user_name", "John Doe")]
+
+
+class TestAction(Action):
+
+	def name(self):
+		return "action_test"
+
+	def run(self, dispatcher, tracker, domain):
+		# type: (Dispatcher, DialogueStateTracker, Domain) -> List[Event]
+
+		name = tracker.get_slot("user_name")
+		most_recent_state = tracker.current_state()
+		sender_id = most_recent_state['sender_id']
+		msg = {
+	   "recipient":{
+		  "id":sender_id
+	   },
+	   "messaging_type":"RESPONSE",
+	   "message":{
+		  "text":"Pick a color:",
+		  "quick_replies":[
+			 {
+				"content_type":"text",
+				"title":"Red",
+				"payload":"/an_intent"
+			 },
+			 {
+				"content_type":"text",
+				"title":"Green",
+				"payload":"/an_intent"
+			 }
+		  ]
+	   		}
+		}
+		dispatcher.utter_custom_json(json.dumps(msg))
+
+		return []
+
 
 
 class TodoApiCall(Action):

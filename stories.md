@@ -5,6 +5,7 @@
   - utter_greet
 * mood_great
   - utter_happy
+  - action_test
 
 ## sad path 1
 * greet
@@ -14,14 +15,17 @@
 * mood_unhappy
   - utter_cheer_up
   - utter_did_that_help
+  - action_test
 * mood_affirm
   - utter_happy
+  - action_test
 
 ## sad path 2
 * greet
   - action_custom_greet
   - slot{"user_name": "Santiago"}
   - utter_greet
+  - action_test
 * mood_unhappy
   - utter_cheer_up
   - utter_did_that_help
